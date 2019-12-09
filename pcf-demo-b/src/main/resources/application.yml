@@ -9,6 +9,8 @@ management:
     prometheus:
       enabled: true
 spring:
+  zipkin:
+    base-url: "http://zipkin-jellin.cfapps.io"
   application:
     name: hop2
   sleuth:

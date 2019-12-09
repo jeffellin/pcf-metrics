@@ -39,21 +39,28 @@ public class PcfDemoBApplication {
 		@Timed(value = "hello.time")
 		public String sayHello() throws InterruptedException {
 
+
+
+
 			Counter counter = registry.counter("hello.count");
 			counter.increment();
 
 
-			Random rn = new Random();
-			int answer = rn.nextInt(5) + 1;
+				Random rn = new Random();
+				int answer = rn.nextInt(5) + 1;
 
-			Thread.sleep(answer*1000);
-			return "hello world:" + answer;
+				Thread.sleep(answer*1000);
+				return "hello world:" + answer;
+
+
 		}
 
 		@GetMapping("/hop")
 		@Timed(value = "hop.time")
 		Map<String, String> message(HttpServletRequest httpRequest) {
 
+			Random random = new Random();
+			int num = random.nextInt(5)+1;
 
 			Collections.list(httpRequest.getHeaderNames()).stream().forEach(h->log.info(h+"="+httpRequest.getHeader(h)));
 
@@ -63,11 +70,15 @@ public class PcfDemoBApplication {
 
 			Map<String, String> response = new HashMap<>();
 
-			String value = "Hi, from a REST endpoint: " + System.currentTimeMillis();
+			if(num!=1) {
+				String value = "Hi, from a REST endpoint: " + System.currentTimeMillis();
 
-			response.put(key, value);
+				response.put(key, value);
 
-			return response;
+				return response;
+			} else{
+				throw new IllegalArgumentException();
+			}
 		}
 
 	}
