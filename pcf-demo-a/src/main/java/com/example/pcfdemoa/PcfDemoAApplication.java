@@ -7,7 +7,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.metrics.web.client.DefaultRestTemplateExchangeTagsProvider;
+import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -25,10 +28,16 @@ public class PcfDemoAApplication {
 
 
 	@Bean
-	RestTemplate restTemplate(){
-		return new RestTemplate();
+	public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+		return restTemplateBuilder.build();
 	}
 
+
+	@Bean
+	public RestTemplateExchangeTagsProvider provider(){
+		return new DefaultRestTemplateExchangeTagsProvider();
+
+	}
 	public static void main(String[] args) {
 		SpringApplication.run(PcfDemoAApplication.class, args);
 	}
@@ -49,11 +58,13 @@ public class PcfDemoAApplication {
 
 		@GetMapping("/")
 		@Timed(value = "hello.time")
-		public Map<String,String> sayHello() throws InterruptedException {
+		public Map<String,String> sayHello()   {
+
+
 
 			log.info("this is the 1st hop");
 
-			String url = "http://demob.apps.sanmarino.cf-app.com/hop";
+			String url = "http://demob-jellin.cfapps.io/hop";
 
 			ParameterizedTypeReference<Map<String, String>> ptr =
 					new ParameterizedTypeReference<Map<String, String>>() {
@@ -64,6 +75,7 @@ public class PcfDemoAApplication {
 
 			Map m = responseEntity.getBody();
 			m.put("hello","world");
+			m.put("hop2",Integer.toString(responseEntity.getStatusCodeValue()));
 
 			return m;
 		};

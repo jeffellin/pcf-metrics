@@ -1,6 +1,6 @@
 ---
 applications:
-- name: demoa
+- name: demoa-jellin
   path: target/pcf-demo-a-0.0.1-SNAPSHOT.jar
   buildpacks:
     - java_buildpack

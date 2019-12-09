@@ -1,0 +1,8 @@
+---
+applications:
+- name: zipkin-jellin
+  path: zipkin.jar
+  buildpacks:
+    - java_buildpack
+  env::
+    QUERY_PORT: 8080

@@ -9,9 +9,12 @@ management:
     prometheus:
       enabled: true
 spring:
+  zipkin:
+    base-url: "http://zipkin-jellin.cfapps.io"
   application:
     name: hop1
   sleuth:
+    web:
+      additional-skip: "/actuator/prometheus"
     sampler:
       probability: 1
-
