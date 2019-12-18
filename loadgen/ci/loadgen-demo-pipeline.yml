@@ -28,7 +28,7 @@ jobs:
       - get: version
         params: {bump: minor}
       - task: build-project
-        file: source-code/ci/tasks/maven-build-task.yml
+        file: source-code/loadgen/ci/tasks/maven-build-task.yml
       - put: version
         params: {file: version/version}
       - put: docker-image

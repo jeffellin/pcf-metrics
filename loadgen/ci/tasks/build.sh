@@ -14,13 +14,13 @@ source ${SCRIPT_DIR}/mvn-tools.sh
 generate_settings
 ls
 
-pushd source-code
+pushd source-code/loadgen
 #    set_revision_to_pom ${VERSION}
 #    ls
 	mvn clean package -DskipTests
 popd
 
 mkdir packed-release/target
-cp source-code/docker/Dockerfile packed-release/target/
+cp source-code/loadgen/docker/Dockerfile packed-release/target/
 # cp source-code/kubernetes/*.yml packed-release/target/
-cp source-code/target/loadgen-demo-0.0.1-SNAPSHOT.jar packed-release/target/loadgen-demo.jar
+cp source-code/loadgen/target/loadgen-demo-0.0.1-SNAPSHOT.jar packed-release/target/loadgen-demo.jar
