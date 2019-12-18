@@ -33,4 +33,4 @@ params:
 run:
   path: /bin/bash
   args:
-    - source-code/ci/tasks/build.sh
+    - source-code/loadgen/ci/tasks/build.sh
