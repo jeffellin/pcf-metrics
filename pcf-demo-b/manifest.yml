@@ -1,6 +1,0 @@
----
-applications:
-- name: demob-jellin
-  path: target/pcf-demo-b-0.0.1-SNAPSHOT.jar
-  buildpacks:
-    - java_buildpack
