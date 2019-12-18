@@ -23,4 +23,4 @@ popd
 mkdir packed-release/target
 cp source-code/loadgen/docker/Dockerfile packed-release/target/
 # cp source-code/kubernetes/*.yml packed-release/target/
-cp source-code/loadgen/target/loadgen-demo-0.0.1-SNAPSHOT.jar packed-release/target/loadgen-demo.jar
+cp source-code/loadgen/target/pcf-loadgen-a-0.0.1-SNAPSHOT.jar packed-release/target/loadgen-demo.jar
