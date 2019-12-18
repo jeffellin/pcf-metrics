@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: 'true'
+    filter.by.port.name: 'true'
+    prometheus.io/path: '/actuator/prometheus'
+  name: loadgen
+spec:
+  selector:
+    app:  loadgen
+  ports:
+  - name: metrics
+    port: 8080
+    protocol: TCP
