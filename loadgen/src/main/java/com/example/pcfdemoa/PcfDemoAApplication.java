@@ -92,7 +92,7 @@ public class PcfDemoAApplication {
 		MeterRegistry registry;
 
 
-		@Value("${loadgen.url:http://104.154.145.14/}")
+		@Value("${loadgen.url}")
 		String url;
 
 
