@@ -116,7 +116,7 @@ public class PcfDemoAApplication {
 				m.put("hello", "world");
 				m.put("hop2", Integer.toString(responseEntity.getStatusCodeValue()));
 
-				System.err.println(m);
+				log.info(m);
 
 				Thread.sleep(500);
 
