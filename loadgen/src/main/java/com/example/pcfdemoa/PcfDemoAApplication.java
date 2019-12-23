@@ -97,7 +97,6 @@ public class PcfDemoAApplication {
 
 
 		@Async
-		@SneakyThrows
 		public void sayHello() {
 
 
@@ -106,21 +105,24 @@ public class PcfDemoAApplication {
 			while (true) {
 
 
+				try {
+					ParameterizedTypeReference<Map<String, String>> ptr =
+							new ParameterizedTypeReference<Map<String, String>>() {
+							};
 
-				ParameterizedTypeReference<Map<String, String>> ptr =
-						new ParameterizedTypeReference<Map<String, String>>() {
-						};
+					ResponseEntity<Map<String, String>> responseEntity =
+							this.restTemplate.exchange(url, HttpMethod.GET, null, ptr);
 
-				ResponseEntity<Map<String, String>> responseEntity =
-						this.restTemplate.exchange(url, HttpMethod.GET, null, ptr);
+					Map m = responseEntity.getBody();
+					m.put("hello", "world");
+					m.put("hop2", Integer.toString(responseEntity.getStatusCodeValue()));
 
-				Map m = responseEntity.getBody();
-				m.put("hello", "world");
-				m.put("hop2", Integer.toString(responseEntity.getStatusCodeValue()));
+					log.info(m);
 
-				log.info(m);
-
-				Thread.sleep(500);
+					Thread.sleep(500);
+				} catch (Exception e) {
+					//nop
+				}
 
 			}
 
