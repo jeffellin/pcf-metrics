@@ -35,13 +35,12 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class PcfDemoAApplication {
 
+	private static Log log = LogFactory.getLog(getClass());
 
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
 
-
 		return restTemplateBuilder.build();
-
 
 	}
 
@@ -60,7 +59,6 @@ public class PcfDemoAApplication {
 	@Bean
 	public RestTemplateExchangeTagsProvider provider() {
 
-
 		return new DefaultRestTemplateExchangeTagsProvider();
 
 	}
@@ -68,6 +66,8 @@ public class PcfDemoAApplication {
 	public static void main(String[] args) {
 
 		ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(PcfDemoAApplication.class, args);
+
+		log.info("Starting multiple threads");
 
 		RestDemo restDemo = configurableApplicationContext.getBean(RestDemo.class);
 
@@ -100,6 +100,8 @@ public class PcfDemoAApplication {
 		@SneakyThrows
 		public void sayHello() {
 
+
+			log.info("Starting the run");
 
 			while (true) {
 
