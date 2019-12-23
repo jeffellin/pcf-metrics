@@ -15,8 +15,8 @@ spec:
         app: loadgen
     spec:
       containers:
-      - name: spring-demo
-        image: ellinj/loadgen:latest
+      - name: loadgen-demo
+        image: ellinj/loadgen-demo:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
