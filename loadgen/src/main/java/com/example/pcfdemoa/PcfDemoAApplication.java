@@ -35,7 +35,7 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class PcfDemoAApplication {
 
-	private static Log log = LogFactory.getLog(getClass());
+	private static Log log = LogFactory.getLog(PcfDemoAApplication.class);
 
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
