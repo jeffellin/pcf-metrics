@@ -1,11 +1,12 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: loadgen-deployment
   labels:
     app: loadgen
+  name: loadgen-deployment
 spec:
   replicas: 3
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: loadgen
@@ -15,10 +16,16 @@ spec:
         app: loadgen
     spec:
       containers:
-      - name: loadgen-demo
-        image: ellinj/loadgen-demo:latest
+      - image: ellinj/loadgen-demo:latest
         imagePullPolicy: Always
+        name: loadgen-demo
+        env:
+        - name: SPRING_APPLICATION
+          value: load-gen
         ports:
         - containerPort: 8080
           name: http
           protocol: TCP
+        resources: {}
+      restartPolicy: Always
+    
