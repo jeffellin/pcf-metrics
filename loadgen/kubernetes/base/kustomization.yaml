@@ -1,5 +1,6 @@
 resources:
 - loadgen-pod.yml
 - loadgen-service.yml
+- config-map.yml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization

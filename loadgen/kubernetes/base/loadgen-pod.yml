@@ -19,9 +19,10 @@ spec:
       - image: ellinj/loadgen-demo:latest
         imagePullPolicy: Always
         name: loadgen-demo
-        env:
-        - name: SPRING_APPLICATION
-          value: load-gen
+        envFrom:
+        # The ConfigMap we want to use
+        - configMapRef:
+            name: demo-config
         ports:
         - containerPort: 8080
           name: http
