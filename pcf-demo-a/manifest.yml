@@ -6,3 +6,4 @@ applications:
     - java_buildpack
   services:
     - eureka
+    - my-db-mine

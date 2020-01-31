@@ -6,6 +6,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.metrics.web.client.DefaultRestTemplateExchangeTagsProvider;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
@@ -66,6 +67,9 @@ public class PcfDemoAApplication {
 		@Autowired
 		private DiscoveryClient discoveryClient;
 
+		@Value("${vcap.services.my-db-mine.credentials.password:none}")
+		String password;
+
 		@GetMapping("/")
 		@Timed(value = "hello.time")
 		public Map<String,String> sayHello()   {
@@ -89,9 +93,10 @@ public class PcfDemoAApplication {
 			ResponseEntity<Map<String, String>> responseEntity =
 					this.restTemplate.exchange(url, HttpMethod.GET, null, ptr);
 
-			Map m = responseEntity.getBody();
+			Map<String,String> m = responseEntity.getBody();
 			m.put("hello","world");
 			m.put("hop2",Integer.toString(responseEntity.getStatusCodeValue()));
+			m.put("password",password);
 
 			return m;
 		};
