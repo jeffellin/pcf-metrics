@@ -6,6 +6,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import java.util.Random;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class PcfDemoBApplication {
 
 
@@ -59,8 +61,6 @@ public class PcfDemoBApplication {
 		@Timed(value = "hop.time")
 		Map<String, String> message(HttpServletRequest httpRequest) {
 
-			Random random = new Random();
-			int num = random.nextInt(5)+1;
 
 			Collections.list(httpRequest.getHeaderNames()).stream().forEach(h->log.info(h+"="+httpRequest.getHeader(h)));
 
@@ -70,15 +70,11 @@ public class PcfDemoBApplication {
 
 			Map<String, String> response = new HashMap<>();
 
-			if(num!=1) {
 				String value = "Hi, from a REST endpoint: " + System.currentTimeMillis();
 
 				response.put(key, value);
 
 				return response;
-			} else{
-				throw new IllegalArgumentException();
-			}
 		}
 
 	}

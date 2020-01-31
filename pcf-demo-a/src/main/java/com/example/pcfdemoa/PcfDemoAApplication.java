@@ -11,23 +11,31 @@ import org.springframework.boot.actuate.metrics.web.client.DefaultRestTemplateEx
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cloud.client.ServiceInstance;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 
 import java.util.Map;
 import java.util.Random;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class PcfDemoAApplication {
 
 
 	@Bean
+	@LoadBalanced
 	public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
 		return restTemplateBuilder.build();
 	}
@@ -48,7 +56,6 @@ public class PcfDemoAApplication {
 
 		private Log log = LogFactory.getLog(getClass());
 
-
 		@Autowired
 		RestTemplate restTemplate;
 
@@ -56,15 +63,24 @@ public class PcfDemoAApplication {
 		MeterRegistry registry;
 
 
+		@Autowired
+		private DiscoveryClient discoveryClient;
+
 		@GetMapping("/")
 		@Timed(value = "hello.time")
 		public Map<String,String> sayHello()   {
 
 
+			discoveryClient.getInstances("hop2").forEach((ServiceInstance s) -> {
+				log.info(ToStringBuilder.reflectionToString(s));
+			});
+			discoveryClient.getInstances("hop1").forEach((ServiceInstance s) -> {
+				log.info(ToStringBuilder.reflectionToString(s));
+			});
 
 			log.info("this is the 1st hop");
 
-			String url = "http://demob-jellin.cfapps.io/hop";
+			String url = "http://hop2/hop";
 
 			ParameterizedTypeReference<Map<String, String>> ptr =
 					new ParameterizedTypeReference<Map<String, String>>() {

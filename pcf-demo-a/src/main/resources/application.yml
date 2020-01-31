@@ -24,4 +24,10 @@ spring:
       additional-skip: "/actuator/prometheus"
     sampler:
       probability: 1
-  
+#ribbon:
+#  ServerListRefreshInterval: 1000 
+eureka:
+  client:
+    registryFetchIntervalSeconds: 1
+#   instance:
+#     leaseRenewalIntervalInSeconds: 1
