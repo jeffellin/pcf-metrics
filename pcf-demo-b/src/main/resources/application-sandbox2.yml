@@ -1,0 +1,14 @@
+eureka:
+  instance:
+    metadata-map:
+      zone: zone2
+  client:
+    region: reg2
+    availability-zones:
+      reg2: zone3,zone4
+      reg1: zone1,zone2
+    prefer-same-zone-eureka: true
+    # serviceUrl:
+    #defaultZone: http://localhost:8761/eureka/
+app:
+  zone: zone2
