@@ -1,9 +1,0 @@
----
-applications:
-- name: demoa-jellin
-  path: target/pcf-demo-a-0.0.1-SNAPSHOT.jar
-  buildpacks:
-    - java_buildpack
-  services:
-    - eureka
-    - my-db-mine

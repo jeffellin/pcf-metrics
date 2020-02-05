@@ -1,0 +1,12 @@
+---
+applications:
+  - name: demoa-sandbox
+    path: target/pcf-demo-a-0.0.1-SNAPSHOT.jar
+    buildpacks:
+      - java_buildpack
+    services:
+      - eureka
+      - config-server
+      - my-db-mine
+    env:
+      SPRING_PROFILES_ACTIVE: cloud,sandbox

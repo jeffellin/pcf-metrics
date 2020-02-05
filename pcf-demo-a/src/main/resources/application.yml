@@ -8,27 +8,27 @@ management:
   endpoints:
     web:
       exposure:
-        include: "metrics,prometheus"
+        include: "metrics,prometheus,env"
   endpoint:
     metrics:
       enabled: true
     prometheus:
       enabled: true
+    env:
+      enabled: true
 spring:
   zipkin:
     base-url: "http://zipkin-jellin.cfapps.io"
-  application:
-    name: hop1
   sleuth:
     web:
       additional-skip: "/actuator/prometheus"
     sampler:
       probability: 1
 
-#ribbon:
-#  ServerListRefreshInterval: 1000 
-#eureka:
-#  client:
-#    registryFetchIntervalSeconds: 1
-#   instance:
-#     leaseRenewalIntervalInSeconds: 1
+ribbon:
+  ServerListRefreshInterval: 1000
+eureka:
+  client:
+    registryFetchIntervalSeconds: 1
+  instance:
+    leaseRenewalIntervalInSeconds: 1

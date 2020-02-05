@@ -70,17 +70,22 @@ public class PcfDemoAApplication {
 		@Value("${vcap.services.my-db-mine.credentials.password:none}")
 		String password;
 
+		@Value("${application.foo:none}")
+		String foo;
+
 		@GetMapping("/")
 		@Timed(value = "hello.time")
 		public Map<String,String> sayHello()   {
 
 
+			//discoveryClient.getInstances("hop2").forEach((ServiceInstance s) -> {
+		//		log.info(ToStringBuilder.reflectionToString(s));
+		//	});
 			discoveryClient.getInstances("hop2").forEach((ServiceInstance s) -> {
 				log.info(ToStringBuilder.reflectionToString(s));
+				log.info(s.getMetadata());
 			});
-			discoveryClient.getInstances("hop1").forEach((ServiceInstance s) -> {
-				log.info(ToStringBuilder.reflectionToString(s));
-			});
+
 
 			log.info("this is the 1st hop");
 
@@ -97,6 +102,7 @@ public class PcfDemoAApplication {
 			m.put("hello","world");
 			m.put("hop2",Integer.toString(responseEntity.getStatusCodeValue()));
 			m.put("password",password);
+			m.put("foo",foo);
 
 			return m;
 		};

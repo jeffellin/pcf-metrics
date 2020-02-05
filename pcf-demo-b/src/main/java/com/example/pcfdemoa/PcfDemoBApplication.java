@@ -4,12 +4,14 @@ import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +24,6 @@ import java.util.Random;
 public class PcfDemoBApplication {
 
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(PcfDemoBApplication.class, args);
 	}
@@ -30,6 +31,9 @@ public class PcfDemoBApplication {
 	@RestController
 	@Timed
 	public class RestDemo {
+
+		@Value("${app.zone:na}")
+		String zone;
 
 		private Log log = LogFactory.getLog(getClass());
 
@@ -70,7 +74,7 @@ public class PcfDemoBApplication {
 
 			Map<String, String> response = new HashMap<>();
 
-				String value = "Hi, from a REST endpoint: " + System.currentTimeMillis();
+				String value = "Hi, from a REST Zone:" + zone + " endpoint: " + System.currentTimeMillis();
 
 				response.put(key, value);
 

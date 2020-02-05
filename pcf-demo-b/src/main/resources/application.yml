@@ -11,8 +11,6 @@ management:
 spring:
   zipkin:
     base-url: "http://zipkin-jellin.cfapps.io"
-  application:
-    name: hop2
   sleuth:
     sampler:
       probability: 1
