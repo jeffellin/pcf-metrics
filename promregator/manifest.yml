@@ -1,0 +1,12 @@
+---
+applications:
+- name: promregator-jellin
+  path: target/promregator-0.7.2.jar
+  buildpacks:
+    - java_buildpack
+  env:
+    PROMREGATOR_TARGETS_0_PROTOCOL: http
+    PROMREGATOR_TARGETS_0_ORG_NAME: jellin-org
+    PROMREGATOR_TARGETS_0_PATH: /actuator/prometheus
+    PROMREGATOR_TARGETS_0_SPACE_NAME: development
+    CF_USERNAME: jellin@pivotal.io
