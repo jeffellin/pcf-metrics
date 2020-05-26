@@ -1,4 +1,6 @@
 spring:
   application:
     name: hop1
+server:
+  port: 8082
 

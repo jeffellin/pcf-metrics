@@ -1,10 +1,9 @@
 management:
   metrics:
     distribution:
-       percentiles:
-         http.client.requests: 0.95, 0.99
-       sla:
-         http.client.requests: 1ms,5ms
+       percentiles-histogram:
+           http.client.requests: true
+           http.server.requests: true
   endpoints:
     web:
       exposure:
@@ -17,18 +16,14 @@ management:
     env:
       enabled: true
 spring:
-  zipkin:
-    base-url: "http://zipkin-jellin.cfapps.io"
   sleuth:
     web:
       additional-skip: "/actuator/prometheus"
     sampler:
       probability: 1
-
-ribbon:
-  ServerListRefreshInterval: 1000
-eureka:
-  client:
-    registryFetchIntervalSeconds: 1
-  instance:
-    leaseRenewalIntervalInSeconds: 1
+wavefront:
+  application:
+    name: jellin-demo2
+    service: hop1
+hop2:
+  url: http://localhost:8080/hop1

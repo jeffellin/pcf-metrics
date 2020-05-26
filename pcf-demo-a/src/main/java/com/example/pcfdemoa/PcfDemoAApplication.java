@@ -15,7 +15,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.cloud.client.ServiceInstance;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 import java.util.Map;
@@ -63,15 +61,8 @@ public class PcfDemoAApplication {
 		@Autowired
 		MeterRegistry registry;
 
-
-		@Autowired
-		private DiscoveryClient discoveryClient;
-
-		@Value("${vcap.services.my-db-mine.credentials.password:none}")
-		String password;
-
-		@Value("${application.foo:none}")
-		String foo;
+		@Value("${hop2.url:foo}")
+		String url = null;
 
 		@GetMapping("/")
 		@Timed(value = "hello.time")
@@ -80,16 +71,10 @@ public class PcfDemoAApplication {
 
 			//discoveryClient.getInstances("hop2").forEach((ServiceInstance s) -> {
 		//		log.info(ToStringBuilder.reflectionToString(s));
-		//	});
-			discoveryClient.getInstances("hop2").forEach((ServiceInstance s) -> {
-				log.info(ToStringBuilder.reflectionToString(s));
-				log.info(s.getMetadata());
-			});
+
 
 
 			log.info("this is the 1st hop");
-
-			String url = "http://hop2/hop";
 
 			ParameterizedTypeReference<Map<String, String>> ptr =
 					new ParameterizedTypeReference<Map<String, String>>() {
@@ -101,8 +86,6 @@ public class PcfDemoAApplication {
 			Map<String,String> m = responseEntity.getBody();
 			m.put("hello","world");
 			m.put("hop2",Integer.toString(responseEntity.getStatusCodeValue()));
-			m.put("password",password);
-			m.put("foo",foo);
 
 			return m;
 		};

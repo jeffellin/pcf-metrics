@@ -14,15 +14,14 @@ management:
     prometheus:
       enabled: true
 spring:
-  zipkin:
-    base-url: "http://zipkin-jellin.cfapps.io"
   application:
-    name: hop1
+    name: loadgen
   sleuth:
     web:
       additional-skip: "/actuator/prometheus"
     sampler:
       probability: 1
 loadgen:
-  url: http://35.223.197.16
-  
+  url: 'http://localhost:8080'
+server:
+  port: 0

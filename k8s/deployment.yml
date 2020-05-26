@@ -1,0 +1,124 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hop2-deployment
+  labels:
+    app: hop2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hop2
+  template:
+    metadata:
+      labels:
+        app: hop2
+    spec:
+      containers:
+      - name: hop2
+        image: ellinj/pcf-demo:b
+        imagePullPolicy: Always
+        env:
+          - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: wftoken
+                key:  token   
+          - name: WAVEFRONT_APPLICATION_NAME
+            value:  k8s-jellin
+          - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_URI
+            value: https:/wavefront.surf
+          - name: SERVER_PORT
+            value: "8080"
+       
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hop2
+spec:
+  selector:
+    app:  hop2
+  type:  ClusterIP
+  ports:
+  - name:  web
+    port:  8080
+    targetPort:  8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hop1-deployment
+  labels:
+    app: hop1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hop1
+  template:
+    metadata:
+      labels:
+        app: hop1
+    spec:
+      containers:
+      - name: hop1
+        image: ellinj/pcf-demo:a
+        imagePullPolicy: Always
+        env:
+          - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: wftoken
+                key:  token
+          - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_URI
+            value: https://wavefront.surf
+          - name: SERVER_PORT
+            value: "8080"
+          - name: HOP2_URL
+            value: http://hop2.default.svc.cluster.local:8080/hop
+          - name: WAVEFRONT_APPLICATION_NAME
+            value:  k8s-jellin
+      
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hop1
+spec:
+  selector:
+    app:  hop1
+  type:  ClusterIP
+  ports:
+  - name:  web
+    port:  8080
+    targetPort:  8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadgen-deployment
+  labels:
+    app: loadgen
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loadgen
+  template:
+    metadata:
+      labels:
+        app: loadgen
+    spec:
+      containers:
+      - name: loadgen
+        image: ellinj/pcf-demo:loadgen
+        imagePullPolicy: Always
+        env:
+          - name: SERVER_PORT
+            value: "8080"
+          - name: LOADGEN_URL
+            value: http://hop1.default.svc.cluster.local:8080
+          - name: WAVEFRONT_APPLICATION_NAME
+            value:  k8s-jellin

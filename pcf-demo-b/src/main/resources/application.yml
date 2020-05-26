@@ -1,4 +1,10 @@
 management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        http.client.requests: true
+        hello.time: true
   endpoints:
     web:
       exposure:
@@ -9,11 +15,14 @@ management:
     prometheus:
       enabled: true
 spring:
-  zipkin:
-    base-url: "http://zipkin-jellin.cfapps.io"
   sleuth:
     sampler:
       probability: 1
-
+wavefront:
+  application:
+    name: jellin-demo
+    service: hop2
+server:
+  port: 9999
 
 
