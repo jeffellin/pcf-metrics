@@ -17,6 +17,10 @@ spec:
     spec:
       containers:
       - name: hop2
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
         image: ellinj/pcf-demo:b
         imagePullPolicy: Always
         env:
@@ -28,9 +32,10 @@ spec:
           - name: WAVEFRONT_APPLICATION_NAME
             value:  k8s-jellin
           - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_URI
-            value: https:/wavefront.surf
+            value: http://wf.default.svc.cluster.local:2878
           - name: SERVER_PORT
             value: "8080"
+    
        
 ---
 kind: Service
@@ -73,7 +78,7 @@ spec:
                 name: wftoken
                 key:  token
           - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_URI
-            value: https://wavefront.surf
+            value: http://wf.default.svc.cluster.local:2878
           - name: SERVER_PORT
             value: "8080"
           - name: HOP2_URL

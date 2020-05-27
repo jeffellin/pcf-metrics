@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wf-deployment
+  labels:
+    app: wf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wf
+  template:
+    metadata:
+      labels:
+        app: wf
+    spec:
+      containers:
+      - name: wf
+        image: wavefronthq/proxy:latest
+        imagePullPolicy: Always
+        env:
+          - name: WAVEFRONT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: wftoken
+                key:  token   
+          - name: JAVA_HEAP_USAGE
+            value:  512m
+          - name: WAVEFRONT_URL
+            value: https://vmware.wavefront.com/api/
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: wf
+spec:
+  selector:
+    app:  wf
+  type:  ClusterIP
+  ports:
+  - name:  web
+    port:  2878
+    targetPort:  2878
+---

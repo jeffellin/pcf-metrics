@@ -65,7 +65,6 @@ public class PcfDemoAApplication {
 		String url = null;
 
 		@GetMapping("/")
-		@Timed(value = "hello.time")
 		public Map<String,String> sayHello()   {
 
 

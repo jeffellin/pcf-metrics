@@ -61,7 +61,6 @@ public class PcfDemoBApplication {
 		}
 
 		@GetMapping("/hop")
-		@Timed(value = "hop.time")
 		Map<String, String> message(HttpServletRequest httpRequest) {
 
 

@@ -1,5 +1,8 @@
 management:
   metrics:
+    web:
+      server:
+        auto-time-requests: true
     distribution:
       percentiles-histogram:
         http.server.requests: true
