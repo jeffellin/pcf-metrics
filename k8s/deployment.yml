@@ -32,7 +32,7 @@ spec:
           - name: WAVEFRONT_APPLICATION_NAME
             value:  k8s-jellin
           - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_URI
-            value: http://wf.default.svc.cluster.local:2878
+            value: https://wavefront.surf
           - name: SERVER_PORT
             value: "8080"
     
@@ -78,13 +78,14 @@ spec:
                 name: wftoken
                 key:  token
           - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_URI
-            value: http://wf.default.svc.cluster.local:2878
+            value: https://wavefront.surf
           - name: SERVER_PORT
             value: "8080"
           - name: HOP2_URL
             value: http://hop2.default.svc.cluster.local:8080/hop
           - name: WAVEFRONT_APPLICATION_NAME
             value:  k8s-jellin
+          
       
 ---
 kind: Service

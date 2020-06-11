@@ -26,7 +26,7 @@ spring:
       probability: 1
 wavefront:
   application:
-    name: jellin-demo2
+    name: jellin-pal
     service: hop1
 hop2:
-  url: http://localhost:8080/hop1
+  url: http://localhost:9999/hop

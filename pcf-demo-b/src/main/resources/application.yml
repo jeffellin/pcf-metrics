@@ -23,7 +23,7 @@ spring:
       probability: 1
 wavefront:
   application:
-    name: jellin-demo
+    name: jellin-pal
     service: hop2
 server:
   port: 9999
